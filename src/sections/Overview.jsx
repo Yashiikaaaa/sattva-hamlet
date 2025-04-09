@@ -17,17 +17,22 @@ export const Overview = ({ contactmodal, setContactModal }) => {
           </h1>
           <p className="max-w-2xl md:text-base text-sm text-black font-body font-light">
           <span className="font-body font-bold text-xs md:text-lg ">
-          Sattva Hamlet is a pre-launch Residential Township project on Airport Road.
+          Sattva Hamlet – Pre-Launch Residential Township on Airport Road
+
+
 
 
           </span>
           <br />
           
             <span>
-            <p>The Project spreads across 53 acres with 80% open spaces offering 3400+ units in various configurations. Sattva Hamlet Comprises of 13 high-rise buildings, each exemplifying modern architectural design.
-            </p>  
-            <br/>
-            <p>Prime Location: Chikkajala, On Airport Road.</p>
+            <p>Spanning 53 acres with 80% open spaces, this thoughtfully planned development offers over 3,400 units across multiple configurations to suit diverse lifestyles.</p>
+<br />
+<p>The project features 13 high-rise towers, each showcasing modern architectural excellence, designed to deliver comfort, convenience, and community living at its finest.</p>
+
+            
+            
+            
             
 
 </span>
