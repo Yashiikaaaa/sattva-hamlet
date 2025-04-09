@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Phone, Xmark, MenuScale } from "iconoir-react"; // Importing icons for phone, close, and menu
 import logo from "../../assets/navbar/sattva.png"; // Importing Prestige Logo
 import { Link } from "react-router-dom"; // Importing Link for routing
-import arrow from "../../assets/navbar/blackarrow.png";
+import arrow from "../../assets/navbar/whitearrow.png";
 
 // Banner component
 export const Banner = ({ setContactModal }) => {
@@ -25,10 +25,10 @@ export const Banner = ({ setContactModal }) => {
     (isBannerVisible) && (
       <div className="w-screen bg-black text-white text-center p-[10px] flex justify-center items-center gap-[16px] max-h-[40px] z-30">
         <span className={`font-sans font-semibold ${isMobile ? "text-[14px] leading-[14px]" : "text-[18px] leading-[17.63px]"}`}>
-          🎉 Exclusive Pre-launch price and offers{" "}
+          Exclusive Pre-launch price and offers{" "}
         </span>
         <div className="flex items-center justify-center gap-[4px] cursor-pointer" onClick={() => setContactModal(true)}>
-          <span className={`font-sans font-semibold ${isMobile ? "text-[14px] leading-[14px]" : "text-[18px] leading-[17.63px]"} hover:underline hover:decoration-black`}>Get it now</span>
+          <span className={`font-sans font-semibold ${isMobile ? "text-[14px] leading-[14px]" : "text-[18px] leading-[17.63px]"} hover:underline hover:decoration-white`}>Get it now</span>
           <img src={arrow} alt=""  className="w-5 h-4"/>
         </div>
         <button

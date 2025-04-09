@@ -24,7 +24,7 @@ export const Overview = ({ contactmodal, setContactModal }) => {
           <br />
           
             <span>
-            <p>The Project spreads across 58 acres with 80% open spaces offering 3400+ units in various configurations. Sattva Hamlet Comprises of 13 high-rise buildings, each exemplifying modern architectural design.
+            <p>The Project spreads across 53 acres with 80% open spaces offering 3400+ units in various configurations. Sattva Hamlet Comprises of 13 high-rise buildings, each exemplifying modern architectural design.
             </p>  
             <br/>
             <p>Prime Location: Chikkajala, On Airport Road.</p>

@@ -28,7 +28,7 @@ export const Location = () => {
 
             <ol className='text-left font-body text-xs md:text-base list-disc font-medium pl-1 md:pl-5 hidden sm:block space-y-3'>
                 <li className=''>Doddajala Metro - 1 km</li>
-                <li className=''>Forum Mall- 2 km</li>
+                <li className=''>Forum Mall- 1 km</li>
                 <li className=''>KIADB- 6 km</li>
                 <li className=''>Airport 5 km</li>
                 

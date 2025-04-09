@@ -24,13 +24,13 @@ const Pricing = ({ setContactModal, contactmodal, formSubmitted }) => {
   };
 
   const propertyTypes = [
-    { type: "Studio", price: "₹ 2.50 Cr ++",  image: bhk1 },
-    { type: "1 BHK", price: "₹ 2.50 Cr ++",  image: bhk2 },
+    
     { type: "2 BHK", price: "₹ 2.50 Cr ++",  image: bhk3 },
+    { type: "2.5 BHK", price: "₹ 2.50 Cr ++",  image: bhk3 },
     { type: "3 BHK", price: "₹ 2.50 Cr ++",  image: bhk3 },
     { type: "3.5 BHK", price: "₹ 2.50 Cr ++",  image: bhk3 },
     { type: "4 BHK", price: "₹ 3.25 Cr ++",  image: bhk5 },
-    { type: "Penthouse", price: "₹ 2.50 Cr ++",  image: bhk3 },
+    
     // { type: "4 BHK Grande", price: "₹ 3.55 Cr ++", size: "2203 Sq.ft.", image: bhk2 },
   ];
 
