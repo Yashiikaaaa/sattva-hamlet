@@ -53,23 +53,27 @@ const ContactForm = ({ contactmodal, setContactModal, setSiteVisitModal }) => {
 
   function getUTMParams() {
     const params = new URLSearchParams(window.location.search);
-    const source = params.get("utmSource");
+    const campaignId = params.get("utmCampaignId")
+    const source = params.get("utmsource");
     const medium = params.get("utmMedium");
     const campaign = params.get("utmCampaign");
 
     ReactGA.send({
       hitType: "pageview",
+      utmCampaignId: campaignId,
       utmSource: source,
       utmMedium: medium,
       utmCampaign: campaign,
     });
 
     return {
+      utmCampaignId: campaignId || "",
       utmSource: source || "",
       utmMedium: medium || "",
       utmCampaign: campaign || "",
     };
   }
+  
 
   useEffect(() => {
     setUtmParams(getUTMParams());
