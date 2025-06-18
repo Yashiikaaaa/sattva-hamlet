@@ -118,7 +118,7 @@ const ContactForm = ({ contactmodal, setContactModal, setSiteVisitModal }) => {
       campaign: true,
       projectId: "OoamiEnU7aHRxicXCnr6",
       projectName: "sattva hamlet",
-      currentAgent: "ish.venaik@truestate.in",
+      currentAgent: "vishakha@canvas-homes.com",
       utmDetails: {
         source: utmParams.utmSource || null,
         medium: utmParams.utmMedium || null,
