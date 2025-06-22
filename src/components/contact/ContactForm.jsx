@@ -54,7 +54,7 @@ const ContactForm = ({ contactmodal, setContactModal, setSiteVisitModal }) => {
   function getUTMParams() {
     const params = new URLSearchParams(window.location.search);
     const campaignId = params.get("utmCampaignId")
-    const source = params.get("utmsource");
+    const source = params.get("utmSource");
     const medium = params.get("utmMedium");
     const campaign = params.get("utmCampaign");
 
