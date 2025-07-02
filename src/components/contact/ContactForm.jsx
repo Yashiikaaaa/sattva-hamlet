@@ -114,7 +114,7 @@ const ContactForm = ({ contactmodal, setContactModal, setSiteVisitModal }) => {
 
     const payload = {
       name: name.trim().toLowerCase(),
-      phonenumber: number.trim(),
+      phoneNumber: number.trim(),
       campaign: true,
       projectId: "OoamiEnU7aHRxicXCnr6",
       projectName: "sattva hamlet",
@@ -127,7 +127,7 @@ const ContactForm = ({ contactmodal, setContactModal, setSiteVisitModal }) => {
     };
 
     try {
-      const response = await fetch("https://handlemultiplecampaigndata-66bpoanwxq-uc.a.run.app", {
+      const response = await fetch("https://googleleadsserver.onrender.com/handleMultipleCampaignData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
