@@ -42,7 +42,16 @@ export const Overview = ({ contactmodal, setContactModal }) => {
           <Button
                 text="Enquire Now!"
                 className=""
-                onClick={() => setContactModal(!contactmodal)} // Toggle contact modal on button click
+                onClick={() => {
+                  setContactModal(!contactmodal)
+                  ReactGA.event({
+                      category: "Form Submission",
+                      action: "Enquire now",
+                      label: "overview",
+                      value: 1,
+                    });
+                   }}
+                    // Toggle contact modal on button click
               />
           
         </div>

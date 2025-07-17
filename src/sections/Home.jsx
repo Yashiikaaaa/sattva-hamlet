@@ -86,8 +86,15 @@ export const Home = ({ contactmodal, setContactModal }) => {
               {/* Enquire Now Button using the reusable Button component */}
               <Button
                 text="Enquire Now!"
-                onClick={() => setContactModal(!contactmodal)} // Toggle contact modal on button click
-              />
+                onClick={() => {
+                  setContactModal(!contactmodal)
+                  ReactGA.event({
+                      category: "Form Submission",
+                      action: "Enquire now",
+                      label: "home",
+                      value: 1,
+                    });
+                   }}     />
             </div>
           </div>
         </div>
