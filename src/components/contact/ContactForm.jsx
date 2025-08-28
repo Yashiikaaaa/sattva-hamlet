@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FormAlert } from "./FormAlert";
 import ReactGA from "react-ga4"; // Google Analytics 4
 import { Phone, Xmark } from "iconoir-react"; // Icon library
@@ -38,6 +38,17 @@ const ContactForm = ({ contactmodal, setContactModal, setSiteVisitModal }) => {
   const [utmParams, setUtmParams] = useState("");
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  const isFormValid = useMemo(() => {
+  if (!name || !number) return false;
+
+  const nameRegex = /^[A-Za-z ]+$/;
+  if (!nameRegex.test(name)) return false;
+
+  if (!isValidPhoneNumber(number)) return false;
+
+  return true;
+}, [name, number]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -180,9 +191,16 @@ const ContactForm = ({ contactmodal, setContactModal, setSiteVisitModal }) => {
             </div>
             <div className="flex flex-col items-center justify-between w-full">
               <div className="mx-auto max-w-sm w-full">
-                <button onClick={handleSubmit} className={`text-white my-5 p-2 w-full ${loading ? "bg-gray-400" : "bg-PrestigeBrown"}`} disabled={loading}>
-                  {loading ? "Submitting..." : "Submit"}
-                </button>
+                <button
+  onClick={handleSubmit}
+  disabled={loading || !isFormValid}
+  className={`text-white my-5 p-2 w-full
+    ${loading || !isFormValid ? "bg-gray-400 cursor-not-allowed disabled:opacity-70 disabled-class" : "bg-PrestigeBrown hover:bg-opacity-90"}
+  `}
+>
+  {loading ? "Submitting..." : "Submit"}
+</button>
+
               </div>
               <div className="flex w-full items-center justify-center gap-[10px]">
                 <div className="h-[2px] w-[86px] bg-[#D9D9D9]" />
