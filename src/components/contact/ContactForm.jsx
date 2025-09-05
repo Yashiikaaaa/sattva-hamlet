@@ -209,8 +209,8 @@ const ContactForm = ({ contactmodal, setContactModal, setSiteVisitModal }) => {
               </div>
               <div className="mx-auto max-w-sm w-full">
                 <button className="text-white my-5 p-2 w-full bg-PrestigeBrown flex items-center justify-center hover:bg-opacity-90 transition">
-                  <a href="tel:+918147672495" className="flex items-center">
-                    <Phone className="w-5 h-5 mr-2" /> 81476 72495
+                  <a href="tel:+918088205451" className="flex items-center">
+                    <Phone className="w-5 h-5 mr-2" /> 80882 05451
                   </a>
                 </button>
               </div>

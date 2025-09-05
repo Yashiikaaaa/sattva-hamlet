@@ -124,10 +124,10 @@ export const Navbar = ({ sitevisitmodal, setSiteVisitModal, setContactModal }) =
           {/* Call Button */}
           <div className="hidden lg:flex items-center">
             <a
-              href="tel:+918147672495"
+              href="tel:+918088205451"
               className="flex items-center bg-PrestigeBrown text-white px-4 py-2 rounded-lg shadow-lg hover:bg-opacity-90 transition"
             >
-              <Phone className="w-5 h-5 mr-2" />81476 72495
+              <Phone className="w-5 h-5 mr-2" />80882 05451
             </a>
           </div>
         </div>
