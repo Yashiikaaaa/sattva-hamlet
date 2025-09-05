@@ -68,6 +68,7 @@ const ContactForm = ({ contactmodal, setContactModal, setSiteVisitModal }) => {
     const source = params.get("utmSource");
     const medium = params.get("utmMedium");
     const campaign = params.get("utmCampaign");
+    const keyword = params.get("utmKeyword");
 
     ReactGA.send({
       hitType: "pageview",
@@ -75,6 +76,7 @@ const ContactForm = ({ contactmodal, setContactModal, setSiteVisitModal }) => {
       utmSource: source,
       utmMedium: medium,
       utmCampaign: campaign,
+      utmKeyword: keyword,
     });
 
     return {
@@ -82,6 +84,7 @@ const ContactForm = ({ contactmodal, setContactModal, setSiteVisitModal }) => {
       utmSource: source || "",
       utmMedium: medium || "",
       utmCampaign: campaign || "",
+      utmKeyword: keyword || "",
     };
   }
   
@@ -134,6 +137,7 @@ const ContactForm = ({ contactmodal, setContactModal, setSiteVisitModal }) => {
         source: utmParams.utmSource || null,
         medium: utmParams.utmMedium || null,
         campaign: utmParams.utmCampaign || null,
+        keyword: utmParams.utmKeyword || null,
       },
     };
 
