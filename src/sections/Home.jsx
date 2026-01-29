@@ -1,4 +1,4 @@
-import herobanner from "../assets/home/HOMEe.jpg"; // Importing hero banner background image
+import herobanner from "../assets/navbar/test.png"; // Importing hero banner background image
 import Button from "../components/button/buttonMain"; // Importing the Button component for reusability
 import homeLocation from "../assets/home/location.svg"; // Importing location icon
 import { useEffect, useState } from "react";
@@ -63,7 +63,7 @@ export const Home = ({ contactmodal, setContactModal }) => {
 
                 {/* Subtitle */}
                 <p className="font-body text-white md:text-2xl text-sm font-normal lg:w-4/6 mx-auto lg:mx-0">
-                A 53 acre Residential Township project on Airport Road, Bengaluru
+                A 53 acre Residential Township on Airport Road, Bengaluru
                   
                 </p>
               </div>
@@ -108,7 +108,7 @@ export const Home = ({ contactmodal, setContactModal }) => {
               className="h-3 md:h-6 text-black"
             />
             <p className="max-w-96 font-body text-left text-black md:text-2xl text-xs font-medium leading-[130%]">
-              Near Bangalore Airport{/* Location name */}
+              Airport Road{/* Location name */}
             </p>
           </div>
         </div>
