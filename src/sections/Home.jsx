@@ -2,7 +2,6 @@ import herobanner from "../assets/navbar/test.png"; // Importing hero banner bac
 import Button from "../components/button/buttonMain"; // Importing the Button component for reusability
 import homeLocation from "../assets/home/location.svg"; // Importing location icon
 import { useEffect, useState } from "react";
-// eslint-disable-next-line react/prop-types
 
 
 const useIsMobile = () => {
@@ -58,7 +57,7 @@ export const Home = ({ contactmodal, setContactModal }) => {
               <div className="flex gap-4 flex-col w-full">
                 {/* Main Title */}
                 <h1 className="font-subheading text-3xl md:text-6xl font-semibold uppercase">
-                Sattva Hamlet
+                 Sattva Hamlet
                 </h1>
 
                 {/* Subtitle */}
@@ -78,7 +77,7 @@ export const Home = ({ contactmodal, setContactModal }) => {
                     />
                   </div>
                   <p className="max-w-96 font-body font-semibold text-left text-white md:text-2xl text-sm">
-                   Airport Road{/* Location name */}
+                    IVC Road{/* Location name */}
                   </p>
                 </div>
               </div>
@@ -86,15 +85,8 @@ export const Home = ({ contactmodal, setContactModal }) => {
               {/* Enquire Now Button using the reusable Button component */}
               <Button
                 text="Enquire Now!"
-                onClick={() => {
-                  setContactModal(!contactmodal)
-                  ReactGA.event({
-                      category: "Form Submission",
-                      action: "Enquire now",
-                      label: "home",
-                      value: 1,
-                    });
-                   }}     />
+                onClick={() => setContactModal(!contactmodal)} // Toggle contact modal on button click
+              />
             </div>
           </div>
         </div>
@@ -108,7 +100,7 @@ export const Home = ({ contactmodal, setContactModal }) => {
               className="h-3 md:h-6 text-black"
             />
             <p className="max-w-96 font-body text-left text-black md:text-2xl text-xs font-medium leading-[130%]">
-              Airport Road{/* Location name */}
+          Airport Road{/* Location name */}
             </p>
           </div>
         </div>
