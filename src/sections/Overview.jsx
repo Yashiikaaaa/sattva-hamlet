@@ -26,7 +26,7 @@ export const Overview = ({ contactmodal, setContactModal }) => {
           <br />
           
             <span>
-            <p>Spanning 53 acres with 80% open spaces, this thoughtfully planned development offers over 3,400 units across multiple configurations to suit diverse lifestyles.</p>
+            <p>Spanning 53 acres with 80% open spaces, this thoughtfully planned development offers over 3,000+ units across multiple configurations to suit diverse lifestyles.</p>
 <br />
 <p>The project features 13 high-rise towers, each showcasing modern architectural excellence, designed to deliver comfort, convenience, and community living at its finest.</p>
 
