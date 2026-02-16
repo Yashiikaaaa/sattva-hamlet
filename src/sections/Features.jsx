@@ -3,7 +3,7 @@ import React from 'react';
 export const Features = () => {
   // Array containing the features data
   const featuresData = [
-    { id: 1, title: 'Size', value: '50 Acres' },
+    { id: 1, title: 'Size', value: '50+ Acres' },
     { id: 2, title: 'Possession', value: '2032' },
     { id: 3, title: 'Starting Price', value: '₹ 1.5 Cr*' },
     { id: 4, title: 'Configuration', value: '2, 3, 4 BHK' },
@@ -18,12 +18,12 @@ export const Features = () => {
             <React.Fragment key={feature.id}>
               {/* Feature Item */}
               <div className="w-[48%] sm:w-[19%] flex flex-col gap-1 sm:gap-4 ">
-                <h1 className="text-xs md:text-lg font-bold font-heading uppercase">
+                <h1 className="text-xs md:text-lg font-bold font-subheading uppercase">
                   {feature.title}
                 </h1>
-                <h3 className="text-2xl md:text-4xl font-subheading font-normal">
+                <h2 className="text-2xl md:text-4xl font-body">
                   {feature.value}
-                </h3>
+                </h2>
               </div>
 
               {/* Add divider after each item except the last one and the second item on screens < 680px */}

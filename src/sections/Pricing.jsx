@@ -27,6 +27,7 @@ const Pricing = ({ setContactModal, contactmodal, formSubmitted }) => {
     
     { type: "2 BHK", price: "₹ 2.50 Cr ++",  image: bhk2 },
     { type: "3 BHK", price: "₹ 2.50 Cr ++",  image: bhk1 },
+        { type: "3.5 BHK", price: "₹ 2.50 Cr ++",  image: bhk1 },
     { type: "4 BHK", price: "₹ 2.50 Cr ++",  image: bhk3 },
    
     
