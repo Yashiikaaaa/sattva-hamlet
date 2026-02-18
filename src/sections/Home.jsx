@@ -1,4 +1,4 @@
-import herobanner from "../assets/1-9.jpg"; // Importing hero banner background image
+import herobanner from "../assets/image-6.webp"; // Importing hero banner background image
 import Button from "../components/button/buttonMain"; // Importing the Button component for reusability
 import homeLocation from "../assets/home/location.svg"; // Importing location icon
 import { useEffect, useState } from "react";
@@ -62,7 +62,7 @@ export const Home = ({ contactmodal, setContactModal }) => {
 
                 {/* Subtitle */}
                 <p className="font-body text-white md:text-2xl text-sm font-normal lg:w-4/6 mx-auto lg:mx-0">
-                Luxury Venice Themed Project near the Airport
+                Luxury Venice Themed Project near the Metro
                   
                 </p>
               </div>
