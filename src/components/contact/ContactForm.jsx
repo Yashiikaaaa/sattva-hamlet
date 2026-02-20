@@ -222,7 +222,7 @@ const ContactForm = ({ contactmodal, setContactModal, leadSource }) => {
 
             <div className="max-w-sm w-full mt-4">
               <a href="tel:+919353329893" className="block bg-PrestigeBrown text-white p-3 text-center">
-                <Phone className="inline mr-2" /> 93533 298993
+                <Phone className="inline mr-2" /> 93533 29893
               </a>
             </div>
           </div>
