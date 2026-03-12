@@ -16,7 +16,6 @@ const useIsMobile = () => {
 
 export const Home = ({ openContactModal }) => {
   const isMobile = useIsMobile();
-  const { trackLeadButtonClick } = useLeadTracking();
 
   // Dynamic container styles
   const containerStyle = {
@@ -88,7 +87,6 @@ export const Home = ({ openContactModal }) => {
                 text="Enquire Now!"
                 onClick={() => {
                   openContactModal(LEAD_SOURCES.HERO);
-                  trackLeadButtonClick(LEAD_SOURCES.HERO, "enquire_now");
                 }} // Toggle contact modal on button click
               />
             </div>

@@ -5,7 +5,6 @@ import { useLeadTracking, LEAD_SOURCES } from "../hooks/useLeadTracking";
 
 // Overview Component
 export const Overview = ({ openContactModal }) => {
-  const { trackLeadButtonClick } = useLeadTracking();
   return (
     <div className="bg-prestigeGrey">
       <section
@@ -46,7 +45,6 @@ export const Overview = ({ openContactModal }) => {
             className=""
             onClick={() => {
               openContactModal(LEAD_SOURCES.OVERVIEW);
-              trackLeadButtonClick(LEAD_SOURCES.OVERVIEW, "enquire_now");
             }}
           // Toggle contact modal on button click
           />

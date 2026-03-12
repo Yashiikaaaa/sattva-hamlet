@@ -7,7 +7,6 @@ import { useLeadTracking, LEAD_SOURCES } from "../../hooks/useLeadTracking";
 
 // Banner component
 export const Banner = ({ openContactModal }) => {
-  const { trackLeadButtonClick } = useLeadTracking();
   const [isBannerVisible, setIsBannerVisible] = useState(true);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
 
@@ -30,8 +29,7 @@ export const Banner = ({ openContactModal }) => {
           Bookings Open Soon{" "}
         </span>
         <div className="flex items-center justify-center gap-[4px] cursor-pointer" onClick={() => {
-          openContactModal("navbar_banner");
-          trackLeadButtonClick("navbar_banner", "enquire");
+          openContactModal("navbar_banner", "enquire");
         }}>
           <span className={`font-sans font-semibold ${isMobile ? "text-[14px] leading-[14px]" : "text-[18px] leading-[17.63px]"} hover:underline hover:decoration-white`}></span>
           <img src={arrow} alt="" className="w-5 h-4" />
@@ -50,7 +48,7 @@ export const Banner = ({ openContactModal }) => {
 // Navbar component
 export const Navbar = ({ sitevisitmodal, setSiteVisitModal, openContactModal }) => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
-  const { trackLeadButtonClick } = useLeadTracking();
+  const { trackButtonClick } = useLeadTracking();
 
   // Function to toggle mobile navigation open/close state
   const toggleMobileNav = () => {
@@ -131,7 +129,7 @@ export const Navbar = ({ sitevisitmodal, setSiteVisitModal, openContactModal }) 
           <a
             href="tel:+919353329893"
             className="flex items-center bg-[#1f276b] text-white px-4 py-2 rounded-lg shadow-lg hover:bg-opacity-90 transition"
-            onClick={() => trackLeadButtonClick(LEAD_SOURCES.NAVBAR, "phone_call_click")}
+            onClick={() => trackButtonClick(LEAD_SOURCES.NAVBAR, "phone_call_click")}
           >
             <Phone className="w-5 h-5 mr-2" />93533 29893
           </a>

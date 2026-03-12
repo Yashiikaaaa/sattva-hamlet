@@ -5,8 +5,6 @@ import { useLeadTracking, LEAD_SOURCES } from '../../hooks/useLeadTracking';
 
 // Footer Component
 export const Footer = ({ openContactModal }) => {
-  const { trackLeadButtonClick } = useLeadTracking();
-
   // Styles for the background image
 
   const opacBackground = {
@@ -39,10 +37,9 @@ export const Footer = ({ openContactModal }) => {
             <div className="">
               <Button
                 text="Fill the form"
-                className="text-center my-2 md:my-6 h-fit md:py-4 md:px-16 py-3 px-8 w-fit scroll-to-top"
+                className="text-center my-2 md:my-6 h-fit md:py-4 md:px-16 py-3 px-8 w-fit"
                 onClick={() => {
-                  openContactModal(LEAD_SOURCES.FOOTER);
-                  trackLeadButtonClick(LEAD_SOURCES.FOOTER, "fill_the_form");
+                  openContactModal(LEAD_SOURCES.FOOTER, "fill_the_form");
                 }}
                 showArrow={false}
               />

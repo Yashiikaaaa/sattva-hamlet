@@ -22,59 +22,31 @@ export const useLeadTracking = () => {
 
   const trackButtonClick = useCallback(
     (source, action, propertyType = null) => {
-      let eventAction = normalize(action);
-      let eventLabel = normalize(source);
-
-      if (eventAction.includes("pricing") && propertyType) {
-        eventAction = `${eventAction}_${normalize(propertyType)}`;
-        if (!eventLabel.includes(normalize(propertyType))) {
-          eventLabel = `${eventLabel}_${normalize(propertyType)}`;
-        }
-      } else if (eventAction.includes("enquire_now") && source) {
-        eventAction = `${eventAction}_${normalize(source)}`;
-      }
-
-      eventAction = eventAction.replace(/(_pricing)+/g, "_pricing");
-      eventLabel = eventLabel.replace(/(_pricing)+/g, "_pricing");
-
-      ReactGA.event(eventAction, {
-        event_category: "Button Click",
-        event_label: eventLabel,
-        lead_source: source,
-        property_type: propertyType,
-        funnel_stage: "interest",
-        transport_type: "beacon",
-        ...getUTMParams(), // ← add utm parameters
-      });
-    },
-    []
-  );
-
-  const trackLeadButtonClick = useCallback(
-    (source, action, propertyType = null) => {
       const normalizedSource = normalize(source);
       const normalizedAction = normalize(action);
-      const eventName = `${normalizedSource}_${normalizedAction}_click`;
 
-      // 1. Generalized event for GTM (can be used for conversion tracking)
+      const eventParams = {
+        event_category: "Button Click",
+        event_label: source,
+        lead_source: source,
+        action: action,
+        property_type: propertyType,
+        ...getUTMParams(),
+      };
+
+      // Push to GTM dataLayer
       if (window?.dataLayer) {
         window.dataLayer.push({
           event: "contact_form_submit",
           event_type: "click",
-          source: source,
-          action: action,
-          property_type: propertyType,
-          ...getUTMParams(),
+          ...eventParams,
         });
       }
 
-      // 2. Specific GA4 event for behavioral tracking
-      ReactGA.event(eventName, {
-        event_category: "Lead Intent",
-        event_label: source,
-        lead_source: source,
-        property_type: propertyType,
-        ...getUTMParams(),
+      // Send to GA4
+      ReactGA.event("contact_form_submit", {
+        event_type: "click",
+        ...eventParams,
       });
     },
     []
@@ -82,81 +54,70 @@ export const useLeadTracking = () => {
 
   const trackFormSubmission = useCallback(
     (source, formType, propertyType = null) => {
-      let eventAction;
-
-      if (propertyType) {
-        eventAction = `${normalize(formType)}_submit_${normalize(propertyType)}`;
-      } else if (source) {
-        eventAction = `${normalize(formType)}_submit_${normalize(source)}`;
-      } else {
-        eventAction = `${normalize(formType)}_submit`;
-      }
-
-      // 1. Specific GA4 event
-      ReactGA.event(eventAction, {
+      const eventParams = {
         event_category: "Form Submission",
         event_label: `${source}${propertyType ? ` - ${propertyType}` : ""}`,
         lead_source: source,
+        form_type: formType,
         property_type: propertyType,
         funnel_stage: formType === "contact_form" ? "lead" : "site_visit_request",
         transport_type: "beacon",
         ...getUTMParams(),
-      });
+      };
 
-      // 2. Generalized GTM and GA4 event (Standardized to contact_form_submit)
+      // 1. Generalized GTM and GA4 event (Standardized to contact_form_submit)
       if (window?.dataLayer) {
         window.dataLayer.push({
           event: "contact_form_submit",
           event_type: "submission",
-          form_type: formType,
-          source: source,
-          property_type: propertyType,
-          ...getUTMParams(),
+          ...eventParams,
         });
       }
 
+      // 2. Single GA4 event
       ReactGA.event("contact_form_submit", {
-        event_category: "Form Submission",
-        event_label: `${source}${propertyType ? ` - ${propertyType}` : ""}`,
-        lead_source: source,
-        property_type: propertyType,
-        funnel_stage: formType === "contact_form" ? "lead" : "site_visit_request",
-        transport_type: "beacon",
-        ...getUTMParams(),
+        event_type: "submission",
+        ...eventParams,
       });
     },
     []
   );
 
-  const trackFormOpen = useCallback((source, formType, propertyType = null) => {
-    let eventAction;
-
-    if (propertyType) {
-      eventAction = `${normalize(formType)}_opened_${normalize(propertyType)}`;
-    } else if (source) {
-      eventAction = `${normalize(formType)}_opened_${normalize(source)}`;
-    } else {
-      eventAction = `${normalize(formType)}_opened`;
-    }
-
-    ReactGA.event(eventAction, {
+  const trackFormOpen = useCallback((source, formType, propertyType = null, action = "enquire_now") => {
+    const eventParams = {
       event_category: "Form Interaction",
       event_label:
         propertyType && !normalize(source).includes(normalize(propertyType))
           ? `${source} - ${propertyType}`
           : source,
       lead_source: source,
+      form_type: formType,
+      action: action,
       property_type: propertyType,
       funnel_stage: "consideration",
       transport_type: "beacon",
-      ...getUTMParams(), // ← add utm parameters
+      ...getUTMParams(),
+    };
+
+    // Push to GTM dataLayer
+    if (window?.dataLayer) {
+      window.dataLayer.push({
+        event: "contact_form_submit",
+        event_type: "open",
+        ...eventParams,
+      });
+    }
+
+    // Send to GA4
+    ReactGA.event("contact_form_submit", {
+      event_type: "open",
+      ...eventParams,
     });
   }, []);
 
   return {
     trackButtonClick,
-    trackLeadButtonClick,
-    trackFormSubmission,
+    trackFormSubmission, 
     trackFormOpen,
   };
 };

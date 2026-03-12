@@ -8,7 +8,7 @@ import { isValidPhoneNumber } from "libphonenumber-js";
 import { useLeadTracking, LEAD_SOURCES } from "../../hooks/useLeadTracking";
 
 const ContactForm = ({ contactmodal, setContactModal, leadSource }) => {
-  const { trackFormSubmission, trackLeadButtonClick } = useLeadTracking();
+  const { trackFormSubmission, trackButtonClick } = useLeadTracking();
 
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
@@ -186,7 +186,7 @@ const ContactForm = ({ contactmodal, setContactModal, leadSource }) => {
             </div>
 
             <div className="max-w-sm w-full mt-4">
-              <a href="tel:+919353329893" className="block bg-PrestigeBrown text-white p-3 text-center" onClick={() => trackLeadButtonClick(LEAD_SOURCES.CONTACT_FORM, "phone_call_click")}>
+              <a href="tel:+919353329893" className="block bg-PrestigeBrown text-white p-3 text-center" onClick={() => trackButtonClick(LEAD_SOURCES.CONTACT_FORM, "phone_call_click")}>
                 <Phone className="inline mr-2" /> 93533 29893
               </a>
             </div>

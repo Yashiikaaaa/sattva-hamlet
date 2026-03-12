@@ -8,7 +8,6 @@ import bhk4 from '../assets/home/HOME.webp';
 import { useLeadTracking, LEAD_SOURCES } from "../hooks/useLeadTracking";
 
 const Pricing = ({ openContactModal, formSubmitted }) => {
-  const { trackLeadButtonClick } = useLeadTracking();
   const [activeTab, setActiveTab] = useState(0);
   const [isUnlocked, setIsUnlocked] = useState(false);
 
@@ -73,12 +72,7 @@ const Pricing = ({ openContactModal, formSubmitted }) => {
                 <Button
                   text="Get Pricing"
                   onClick={() => {
-                    openContactModal(`pricing_${property.type.replace(/\s+/g, "_")}`);
-                    trackLeadButtonClick(
-                      `pricing_${property.type.replace(/\s+/g, "_")}`,
-                      "get_pricing",
-                      property.type
-                    );
+                    openContactModal(`pricing_${property.type.replace(/\s+/g, "_")}`, "get_pricing");
                   }}
                   className="absolute w-max top-1/2 right-0 transform -translate-y-1/2 px-6 py-3 text-center font-body font-semibold text-sm sm:text-base transition-all duration-300 ease-in-out"
                   showArrow={false}

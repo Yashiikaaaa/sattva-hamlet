@@ -68,7 +68,7 @@ function PrevArrow(props) {
 
 
 export const FloorPlan = ({ setContactModal, contactmodal }) => {
-  const { trackLeadButtonClick } = useLeadTracking();
+  const { trackButtonClick } = useLeadTracking();
   const settings = {
     dots: true,
     infinite: false,
@@ -132,7 +132,7 @@ export const FloorPlan = ({ setContactModal, contactmodal }) => {
                     className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-14 py-3 text-white bg-godrejgreen2  text-center rounded-lg text-xs md:text-lg font-medium"
                     onClick={() => {
                       setContactModal(true);
-                      trackLeadButtonClick("floor_plan_section", "enquiry", photo.caption);
+                      trackButtonClick("floor_plan_section", "enquiry", photo.caption);
                     }}
                   >
                     Floor Plan
