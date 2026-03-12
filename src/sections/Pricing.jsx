@@ -5,8 +5,10 @@ import bhk2 from '../assets/gallery/6.webp';
 import bhk3 from '../assets/gallery/16.webp';
 import bhk5 from '../assets/gallery/31.jpg';
 import bhk4 from '../assets/home/HOME.webp';
+import { useLeadTracking, LEAD_SOURCES } from "../hooks/useLeadTracking";
 
-const Pricing = ({ setContactModal, contactmodal, formSubmitted }) => {
+const Pricing = ({ openContactModal, formSubmitted }) => {
+  const { trackLeadButtonClick } = useLeadTracking();
   const [activeTab, setActiveTab] = useState(0);
   const [isUnlocked, setIsUnlocked] = useState(false);
 
@@ -24,13 +26,13 @@ const Pricing = ({ setContactModal, contactmodal, formSubmitted }) => {
   };
 
   const propertyTypes = [
-    
-    { type: "2 BHK", price: "₹ 2.50 Cr ++",  image: bhk2 },
-    { type: "3 BHK", price: "₹ 2.50 Cr ++",  image: bhk1 },
-        { type: "3.5 BHK", price: "₹ 2.50 Cr ++",  image: bhk1 },
-    { type: "4 BHK", price: "₹ 2.50 Cr ++",  image: bhk3 },
-   
-    
+
+    { type: "2 BHK", price: "₹ 2.50 Cr ++", image: bhk2 },
+    { type: "3 BHK", price: "₹ 2.50 Cr ++", image: bhk1 },
+    { type: "3.5 BHK", price: "₹ 2.50 Cr ++", image: bhk1 },
+    { type: "4 BHK", price: "₹ 2.50 Cr ++", image: bhk3 },
+
+
     // { type: "4 BHK Grande", price: "₹ 3.55 Cr ++", size: "2203 Sq.ft.", image: bhk2 },
   ];
 
@@ -71,14 +73,13 @@ const Pricing = ({ setContactModal, contactmodal, formSubmitted }) => {
                 <Button
                   text="Get Pricing"
                   onClick={() => {
-                  setContactModal(!contactmodal)
-                  ReactGA.event({
-                      category: "Form Submission",
-                      action: "get pricing",
-                      label: "pricing",
-                      value: 1,
-                    });
-                   }}
+                    openContactModal(`pricing_${property.type.replace(/\s+/g, "_")}`);
+                    trackLeadButtonClick(
+                      `pricing_${property.type.replace(/\s+/g, "_")}`,
+                      "get_pricing",
+                      property.type
+                    );
+                  }}
                   className="absolute w-max top-1/2 right-0 transform -translate-y-1/2 px-6 py-3 text-center font-body font-semibold text-sm sm:text-base transition-all duration-300 ease-in-out"
                   showArrow={false}
                 />

@@ -5,12 +5,7 @@ import { PageRoute } from './PageRoute'
 const trackingId = import.meta.env.VITE_GA_MEASUREMENT_ID;
 
 ReactGA.initialize(trackingId);
-ReactGA.send({ hitType: "pageview", page: "/", title: "Users Landed" });
-ReactGA.send({ hitType: "pageview", page: "/amenities", title: "Users Landed" });
-ReactGA.send({ hitType: "pageview", page: "/contact", title: "Users Landed" });
-ReactGA.send({ hitType: "pageview", page: "/locationlocation", title: "Users Landed" });
-ReactGA.send({ hitType: "pageview", page: "/locationperks", title: "Users Landed" });
-ReactGA.send({ hitType: "pageview", page: "/pricing", title: "Users Landed" });
+ReactGA.send({ hitType: "pageview", page: window.location.pathname, title: "Home Page" });
 
 function App() {
 

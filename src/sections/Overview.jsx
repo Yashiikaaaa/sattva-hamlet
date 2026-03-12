@@ -1,9 +1,11 @@
 import React from 'react';
 import image from '../assets/gallery/micro.jpg';
 import Button from '../components/button/buttonMain';
+import { useLeadTracking, LEAD_SOURCES } from "../hooks/useLeadTracking";
 
 // Overview Component
-export const Overview = ({ contactmodal, setContactModal }) => {
+export const Overview = ({ openContactModal }) => {
+  const { trackLeadButtonClick } = useLeadTracking();
   return (
     <div className="bg-prestigeGrey">
       <section
@@ -16,44 +18,39 @@ export const Overview = ({ contactmodal, setContactModal }) => {
             Overview
           </h1>
           <p className="max-w-2xl md:text-base text-sm text-black font-body font-light">
-          <span className="font-body font-bold text-xs md:text-lg ">
-          Sattva Hamlet – Pre-Launch Residential Township on Airport Road
+            <span className="font-body font-bold text-xs md:text-lg ">
+              Sattva Hamlet – Pre-Launch Residential Township on Airport Road
 
 
 
 
-          </span>
-          <br />
-          
+            </span>
+            <br />
+
             <span>
-            <p>Spanning 50+ acres with 80% open spaces, this thoughtfully planned development offers over 3,000+ units across multiple configurations to suit diverse lifestyles.</p>
-<br />
-<p>The project features 13 high-rise towers, each showcasing modern architectural excellence, designed to deliver comfort, convenience, and community living at its finest.</p>
+              <p>Spanning 50+ acres with 80% open spaces, this thoughtfully planned development offers over 3,000+ units across multiple configurations to suit diverse lifestyles.</p>
+              <br />
+              <p>The project features 13 high-rise towers, each showcasing modern architectural excellence, designed to deliver comfort, convenience, and community living at its finest.</p>
 
-            
-            
-            
-            
 
-</span>
+
+
+
+
+            </span>
           </p>
 
           {/* Enquire Now Button using the reusable Button component */}
           <Button
-                text="Enquire Now!"
-                className=""
-                onClick={() => {
-                  setContactModal(!contactmodal)
-                  ReactGA.event({
-                      category: "Form Submission",
-                      action: "Enquire now",
-                      label: "overview",
-                      value: 1,
-                    });
-                   }}
-                    // Toggle contact modal on button click
-              />
-          
+            text="Enquire Now!"
+            className=""
+            onClick={() => {
+              openContactModal(LEAD_SOURCES.OVERVIEW);
+              trackLeadButtonClick(LEAD_SOURCES.OVERVIEW, "enquire_now");
+            }}
+          // Toggle contact modal on button click
+          />
+
         </div>
 
         {/* Image and Download Button Section */}

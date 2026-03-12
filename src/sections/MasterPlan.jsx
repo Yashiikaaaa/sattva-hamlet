@@ -1,11 +1,13 @@
 import React from "react";
 import masterplan from "../assets/masterPlan/masterPlan.webp";
 import Button from "../components/button/buttonMain";
+import { useLeadTracking, LEAD_SOURCES } from "../hooks/useLeadTracking";
 
 // Reusable Button Component
 
 
-export const MasterPlan = ({ setContactModal, contactmodal }) => {
+export const MasterPlan = ({ openContactModal }) => {
+  const { trackLeadButtonClick } = useLeadTracking();
   return (
     <div
       className="px-6 md:px-[7.5rem] lg:px-64 mx-auto flex flex-col items-center justify-center bg-prestigeGrey py-7 md:py-14  gap-10"
@@ -26,19 +28,14 @@ export const MasterPlan = ({ setContactModal, contactmodal }) => {
 
         {/* Get Master Plan Button */}
         <Button
-            text="Download Brochure"
-           onClick={() => {
-                  setContactModal(!contactmodal)
-                  ReactGA.event({
-                      category: "Form Submission",
-                      action: "download brochure",
-                      label: "master plan",
-                      value: 2,
-                    });
-                   }}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-            showArrow={false} // Arrow will not be displayed
-          />
+          text="Download Brochure"
+          onClick={() => {
+            openContactModal(LEAD_SOURCES.MASTER_PLAN);
+            trackLeadButtonClick(LEAD_SOURCES.MASTER_PLAN, "download_brochure");
+          }}
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          showArrow={false} // Arrow will not be displayed
+        />
       </div>
     </div>
   );

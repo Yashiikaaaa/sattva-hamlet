@@ -3,9 +3,11 @@ import { Phone, Xmark, MenuScale } from "iconoir-react"; // Importing icons for 
 import logo from "../../assets/navbar/sattva.png"; // Importing Prestige Logo
 import { Link } from "react-router-dom"; // Importing Link for routing
 import arrow from "../../assets/navbar/whitearrow.png";
+import { useLeadTracking, LEAD_SOURCES } from "../../hooks/useLeadTracking";
 
 // Banner component
-export const Banner = ({ setContactModal }) => {
+export const Banner = ({ openContactModal }) => {
+  const { trackLeadButtonClick } = useLeadTracking();
   const [isBannerVisible, setIsBannerVisible] = useState(true);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
 
@@ -27,9 +29,12 @@ export const Banner = ({ setContactModal }) => {
         <span className={`font-sans font-semibold ${isMobile ? "text-[14px] leading-[14px]" : "text-[18px] leading-[17.63px]"}`}>
           Bookings Open Soon{" "}
         </span>
-        <div className="flex items-center justify-center gap-[4px] cursor-pointer" onClick={() => setContactModal(true)}>
+        <div className="flex items-center justify-center gap-[4px] cursor-pointer" onClick={() => {
+          openContactModal("navbar_banner");
+          trackLeadButtonClick("navbar_banner", "enquire");
+        }}>
           <span className={`font-sans font-semibold ${isMobile ? "text-[14px] leading-[14px]" : "text-[18px] leading-[17.63px]"} hover:underline hover:decoration-white`}></span>
-          <img src={arrow} alt=""  className="w-5 h-4"/>
+          <img src={arrow} alt="" className="w-5 h-4" />
         </div>
         <button
           className={`absolute ${isMobile ? "right-2 hidden" : "right-4"} text-white`}
@@ -43,8 +48,9 @@ export const Banner = ({ setContactModal }) => {
 };
 
 // Navbar component
-export const Navbar = ({ sitevisitmodal, setSiteVisitModal, setContactModal }) => {
+export const Navbar = ({ sitevisitmodal, setSiteVisitModal, openContactModal }) => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const { trackLeadButtonClick } = useLeadTracking();
 
   // Function to toggle mobile navigation open/close state
   const toggleMobileNav = () => {
@@ -63,74 +69,74 @@ export const Navbar = ({ sitevisitmodal, setSiteVisitModal, setContactModal }) =
   ];
 
   return (
-      <div className="font-body fixed w-full z-20 top-0 start-0 bg-white ">
-        <Banner setContactModal={setContactModal} />
-        <div className="max-w-7xl mx-auto px-5 lg:px-0 flex flex-wrap items-center justify-between py-[8px] z-40 ">
-          {/* Logo Section */}
-          <a
-            href="/"
-            className="flex items-center px-4 md:p-0 space-x-3 rtl:space-x-reverse"
+    <div className="font-body fixed w-full z-20 top-0 start-0 bg-white ">
+      <Banner openContactModal={openContactModal} />
+      <div className="max-w-7xl mx-auto px-5 lg:px-0 flex flex-wrap items-center justify-between py-[8px] z-40 ">
+        {/* Logo Section */}
+        <a
+          href="/"
+          className="flex items-center px-4 md:p-0 space-x-3 rtl:space-x-reverse"
+        >
+          <img
+            src={logo}
+            className="h-10 md:h-10"
+            alt="Sattva Hamlet"
+          />
+        </a>
+
+        {/* Mobile Menu Toggle Button */}
+        <div className="lg:hidden flex items-center">
+          <button
+            type="button"
+            onClick={toggleMobileNav}
+            className="inline-flex items-center w-10 h-10 justify-center text-black hover:bg-skyblue2Color focus:outline-none"
+            aria-expanded={isMobileNavOpen ? "true" : "false"}
           >
-            <img
-              src={logo}
-              className="h-10 md:h-10"
-              alt="Sattva Hamlet"
-            />
-          </a>
+            <span className="sr-only">
+              {isMobileNavOpen ? "Close main menu" : "Open main menu"}
+            </span>
+            {isMobileNavOpen ? (
+              <Xmark className="w-8 h-8" />
+            ) : (
+              <MenuScale className="w-8 h-8" />
+            )}
+          </button>
+        </div>
 
-          {/* Mobile Menu Toggle Button */}
-          <div className="lg:hidden flex items-center">
-            <button
-              type="button"
-              onClick={toggleMobileNav}
-              className="inline-flex items-center w-10 h-10 justify-center text-black hover:bg-skyblue2Color focus:outline-none"
-              aria-expanded={isMobileNavOpen ? "true" : "false"}
-            >
-              <span className="sr-only">
-                {isMobileNavOpen ? "Close main menu" : "Open main menu"}
-              </span>
-              {isMobileNavOpen ? (
-                <Xmark className="w-8 h-8" />
-              ) : (
-                <MenuScale className="w-8 h-8" />
-              )}
-            </button>
-          </div>
-
-          {/* Navigation Links */}
-          <div
-            className={`items-center md:flex ${
-              isMobileNavOpen
-                ? " min-h-screen backdrop-blur-md w-full mt-8"
-                : "hidden"
+        {/* Navigation Links */}
+        <div
+          className={`items-center md:flex ${isMobileNavOpen
+            ? " min-h-screen backdrop-blur-md w-full mt-8"
+            : "hidden"
             }`}
-            id="navbar-sticky"
-            onClick={() => setIsMobileNavOpen(false)}
-          >
-            <ul className="flex flex-col p-4 md:p-0 md:flex-row gap-12 w-full justify-between text-white">
-              {navLinks.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="block border-b md:border-0 hover:border-gray-400 font-bold text-sm uppercase text-black hover:text-PrestigeBrown transition-all duration-300"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          id="navbar-sticky"
+          onClick={() => setIsMobileNavOpen(false)}
+        >
+          <ul className="flex flex-col p-4 md:p-0 md:flex-row gap-12 w-full justify-between text-white">
+            {navLinks.map((link, index) => (
+              <li key={index}>
+                <a
+                  href={link.href}
+                  className="block border-b md:border-0 hover:border-gray-400 font-bold text-sm uppercase text-black hover:text-PrestigeBrown transition-all duration-300"
+                >
+                  {link.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-          {/* Call Button */}
-          <div className="hidden lg:flex items-center">
-            <a
-              href="tel:+919353329893"
-              className="flex items-center bg-[#1f276b] text-white px-4 py-2 rounded-lg shadow-lg hover:bg-opacity-90 transition"
-            >
-              <Phone className="w-5 h-5 mr-2" />93533 29893
-            </a>
-          </div>
+        {/* Call Button */}
+        <div className="hidden lg:flex items-center">
+          <a
+            href="tel:+919353329893"
+            className="flex items-center bg-[#1f276b] text-white px-4 py-2 rounded-lg shadow-lg hover:bg-opacity-90 transition"
+            onClick={() => trackLeadButtonClick(LEAD_SOURCES.NAVBAR, "phone_call_click")}
+          >
+            <Phone className="w-5 h-5 mr-2" />93533 29893
+          </a>
         </div>
       </div>
+    </div>
   );
 };

@@ -1,6 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
 import { FormAlert } from "./FormAlert";
-import ReactGA from "react-ga4";
 import { Phone, Xmark } from "iconoir-react";
 import overlaybg from "../../assets/gallery/14.webp";
 import PhoneInput from "react-phone-number-input";
@@ -8,30 +7,8 @@ import "react-phone-number-input/style.css";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import { useLeadTracking, LEAD_SOURCES } from "../../hooks/useLeadTracking";
 
-// GA4 Init
-const trackingId = import.meta.env.VITE_GA_MEASUREMENT_ID;
-if (trackingId) {
-  ReactGA.initialize(trackingId);
-}
-
-// 🔥 GTM EVENT PUSH
-const fireContactFormSubmitEvent = ({ projectName, leadSource, utmParams }) => {
-  if (!window?.dataLayer) return;
-
-  window.dataLayer.push({
-    event: "Contact_form_submit",
-    form_name: "Contact Form",
-    project_name: projectName,
-    lead_source: leadSource || "unknown",
-    utm_source: utmParams?.utmSource || "",
-    utm_medium: utmParams?.utmMedium || "",
-    utm_campaign: utmParams?.utmCampaign || "",
-    utm_keyword: utmParams?.utmKeyword || "",
-  });
-};
-
 const ContactForm = ({ contactmodal, setContactModal, leadSource }) => {
-  const { trackFormSubmission } = useLeadTracking();
+  const { trackFormSubmission, trackLeadButtonClick } = useLeadTracking();
 
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
@@ -94,13 +71,6 @@ const ContactForm = ({ contactmodal, setContactModal, leadSource }) => {
       return;
     }
 
-    // Internal tracking
-    trackFormSubmission(
-      leadSource?.source || LEAD_SOURCES.UNKNOWN,
-      "contact_form",
-      leadSource?.propertyType
-    );
-
     setAlert(<FormAlert message="Submitting form..." onClose={() => setAlert(null)} />);
 
     const payload = {
@@ -134,12 +104,8 @@ const ContactForm = ({ contactmodal, setContactModal, leadSource }) => {
 
       await response.json();
 
-      // 🔥 FIRE GTM EVENT (Google Ads / GA4)
-      fireContactFormSubmitEvent({
-        projectName: payload.projectName,
-        leadSource: leadSource?.source,
-        utmParams,
-      });
+      // 🔥 FIRE Standardized Hook for GTM/GA4
+      trackFormSubmission(leadSource || LEAD_SOURCES.UNKNOWN, "contact_form");
 
       setName("");
       setNumber("");
@@ -210,18 +176,17 @@ const ContactForm = ({ contactmodal, setContactModal, leadSource }) => {
               <button
                 onClick={handleSubmit}
                 disabled={loading || !isFormValid}
-                className={`w-full p-3 text-white ${
-                  loading || !isFormValid
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-PrestigeBrown"
-                }`}
+                className={`w-full p-3 text-white ${loading || !isFormValid
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-PrestigeBrown"
+                  }`}
               >
                 {loading ? "Submitting..." : "Submit"}
               </button>
             </div>
 
             <div className="max-w-sm w-full mt-4">
-              <a href="tel:+919353329893" className="block bg-PrestigeBrown text-white p-3 text-center">
+              <a href="tel:+919353329893" className="block bg-PrestigeBrown text-white p-3 text-center" onClick={() => trackLeadButtonClick(LEAD_SOURCES.CONTACT_FORM, "phone_call_click")}>
                 <Phone className="inline mr-2" /> 93533 29893
               </a>
             </div>
