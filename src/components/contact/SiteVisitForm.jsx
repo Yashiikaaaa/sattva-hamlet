@@ -19,14 +19,16 @@ const ip_api = import.meta.env.VITE_IP_API;
  */
 function getUTMParams() {
   const params = new URLSearchParams(window.location.search);
-  const source = params.get("utm_source");
-  const medium = params.get("utm_medium");
-  const campaign = params.get("utm_campaign");
+  const source = params.get("utm_source") || params.get("utmSource");
+  const medium = params.get("utm_medium") || params.get("utmMedium");
+  const campaign = params.get("utm_campaign") || params.get("utmCampaign");
+  const gclid = params.get("gclid");
 
   return {
-    utmSource: source || "",
-    utmMedium: medium || "",
-    utmCampaign: campaign || "",
+    utmSource: source || localStorage.getItem("utm_source") || "",
+    utmMedium: medium || localStorage.getItem("utm_medium") || "",
+    utmCampaign: campaign || localStorage.getItem("utm_campaign") || "",
+    gclid: gclid || localStorage.getItem("gclid") || "",
   };
 }
 
@@ -156,6 +158,7 @@ export const SiteVisitForm = ({ sitevisitmodal, setSiteVisitModal }) => {
         source: utmParams.utmSource || null,
         medium: utmParams.utmMedium || null,
         campaign: utmParams.utmCampaign || null,
+        gclid: utmParams.gclid || null,
       },
     };
 

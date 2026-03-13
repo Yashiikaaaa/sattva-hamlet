@@ -12,11 +12,14 @@ export const useLeadTracking = () => {
     if (typeof window === "undefined") return {};
     const params = new URLSearchParams(window.location.search);
     return {
-      utm_source: params.get("utm_source") || params.get("utmSource") || undefined,
-      utm_medium: params.get("utm_medium") || params.get("utmMedium") || undefined,
-      utm_campaign: params.get("utm_campaign") || params.get("utmCampaign") || undefined,
-      utm_term: params.get("utm_term") || params.get("utmTerm") || params.get("utmTerm") || undefined,
-      utm_content: params.get("utm_content") || params.get("utmContent") || undefined,
+      utm_source: params.get("utm_source") || params.get("utmSource") || localStorage.getItem("utm_source") || undefined,
+      utm_medium: params.get("utm_medium") || params.get("utmMedium") || localStorage.getItem("utm_medium") || undefined,
+      utm_campaign: params.get("utm_campaign") || params.get("utmCampaign") || localStorage.getItem("utm_campaign") || undefined,
+      utm_term: params.get("utm_term") || params.get("utmTerm") || localStorage.getItem("utm_term") || undefined,
+      utm_content: params.get("utm_content") || params.get("utmContent") || localStorage.getItem("utm_content") || undefined,
+      gclid: params.get("gclid") || localStorage.getItem("gclid") || undefined,
+      gbraid: params.get("gbraid") || localStorage.getItem("gbraid") || undefined,
+      wbraid: params.get("wbraid") || localStorage.getItem("wbraid") || undefined,
     };
   };
 
@@ -37,7 +40,7 @@ export const useLeadTracking = () => {
       // Push to GTM dataLayer
       if (window?.dataLayer) {
         window.dataLayer.push({
-          event: "CONTACT_FORM_SUBMIT",
+          event: "contact_form_submit",
           event_type: "click",
           ...eventParams,
         });
@@ -68,14 +71,14 @@ export const useLeadTracking = () => {
       // 1. Generalized GTM and GA4 event (Standardized to contact_form_submit)
       if (window?.dataLayer) {
         window.dataLayer.push({
-          event: "CONTACT_FORM_SUBMIT",
+          event: "contact_form_submit",
           event_type: "submission",
           ...eventParams,
         });
       }
 
       // 2. Single GA4 event
-      ReactGA.event("CONTACT_FORM_SUBMIT", {
+      ReactGA.event("contact_form_submit", {
         event_type: "submission",
         ...eventParams,
       });
@@ -102,14 +105,14 @@ export const useLeadTracking = () => {
     // Push to GTM dataLayer
     if (window?.dataLayer) {
       window.dataLayer.push({
-        event: "CONTACT_FORM_SUBMIT",
+        event: "contact_form_submit",
         event_type: "open",
         ...eventParams,
       });
     }
 
     // Send to GA4
-    ReactGA.event("CONTACT_FORM_SUBMIT", {
+    ReactGA.event("contact_form_submit", {
       event_type: "open",
       ...eventParams,
     });

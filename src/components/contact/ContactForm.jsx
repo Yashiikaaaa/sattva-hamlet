@@ -36,10 +36,11 @@ const ContactForm = ({ contactmodal, setContactModal, leadSource }) => {
     if (typeof window === "undefined") return {};
     const params = new URLSearchParams(window.location.search);
     return {
-      utmSource: params.get("utmSource") || "",
-      utmMedium: params.get("utmMedium") || "",
-      utmCampaign: params.get("utmCampaign") || "",
-      utmKeyword: params.get("utmKeyword") || "",
+      utmSource: params.get("utm_source") || params.get("utmSource") || localStorage.getItem("utm_source") || "",
+      utmMedium: params.get("utm_medium") || params.get("utmMedium") || localStorage.getItem("utm_medium") || "",
+      utmCampaign: params.get("utm_campaign") || params.get("utmCampaign") || localStorage.getItem("utm_campaign") || "",
+      utmKeyword: params.get("utm_term") || params.get("utmTerm") || localStorage.getItem("utm_term") || "",
+      gclid: params.get("gclid") || localStorage.getItem("gclid") || "",
     };
   };
 
@@ -85,6 +86,7 @@ const ContactForm = ({ contactmodal, setContactModal, leadSource }) => {
         medium: utmParams.utmMedium || null,
         campaign: utmParams.utmCampaign || null,
         keyword: utmParams.utmKeyword || null,
+        gclid: utmParams.gclid || null,
       },
     };
 
