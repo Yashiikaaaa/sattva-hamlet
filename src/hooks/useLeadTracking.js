@@ -40,14 +40,14 @@ export const useLeadTracking = () => {
       // Push to GTM dataLayer
       if (window?.dataLayer) {
         window.dataLayer.push({
-          event: "contact_form_submit",
+          event: "contact_form_interaction",
           event_type: "click",
-          ...eventParams,
+          ...eventParams, 
         });
       }
 
       // Send to GA4
-      ReactGA.event("contact_form_submit", {
+      ReactGA.event("contact_form_interaction", {
         event_type: "click",
         ...eventParams,
       });
@@ -105,14 +105,14 @@ export const useLeadTracking = () => {
     // Push to GTM dataLayer
     if (window?.dataLayer) {
       window.dataLayer.push({
-        event: "contact_form_submit",
+        event: "contact_form_interaction",
         event_type: "open",
         ...eventParams,
       });
     }
 
     // Send to GA4
-    ReactGA.event("contact_form_submit", {
+    ReactGA.event("contact_form_interaction", {
       event_type: "open",
       ...eventParams,
     });
