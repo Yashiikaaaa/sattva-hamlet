@@ -71,7 +71,7 @@ export const useLeadTracking = () => {
       // 1. Generalized GTM and GA4 event (Standardized to contact_form_submit)
       if (window?.dataLayer) {
         window.dataLayer.push({
-          event: "Contact_form_submit",
+          event: "Contact_form_submit", 
           event_type: "submission",
           ...eventParams,
         });
