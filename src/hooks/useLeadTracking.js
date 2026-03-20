@@ -40,14 +40,14 @@ export const useLeadTracking = () => {
       // Push to GTM dataLayer
       if (window?.dataLayer) {
         window.dataLayer.push({
-          event: "contact_form_interaction",
+          event: "Contact_form_interaction",
           event_type: "click",
           ...eventParams, 
         });
       }
 
       // Send to GA4
-      ReactGA.event("contact_form_interaction", {
+      ReactGA.event("Contact_form_interaction", {
         event_type: "click",
         ...eventParams,
       });
@@ -71,14 +71,14 @@ export const useLeadTracking = () => {
       // 1. Generalized GTM and GA4 event (Standardized to contact_form_submit)
       if (window?.dataLayer) {
         window.dataLayer.push({
-          event: "contact_form_submit",
+          event: "Contact_form_submit",
           event_type: "submission",
           ...eventParams,
         });
       }
 
       // 2. Single GA4 event
-      ReactGA.event("contact_form_submit", {
+      ReactGA.event("Contact_form_submit", {
         event_type: "submission",
         ...eventParams,
       });
@@ -103,16 +103,16 @@ export const useLeadTracking = () => {
     };
 
     // Push to GTM dataLayer
-    if (window?.dataLayer) {
+    if (window?.dataLayer) { 
       window.dataLayer.push({
-        event: "contact_form_interaction",
+        event: "Contact_form_interaction",
         event_type: "open",
         ...eventParams,
       });
     }
 
     // Send to GA4
-    ReactGA.event("contact_form_interaction", {
+    ReactGA.event("Contact_form_interaction", {
       event_type: "open",
       ...eventParams,
     });
@@ -134,7 +134,7 @@ export const LEAD_SOURCES = {
   PRICING_4BHK: "pricing_4BHK",
   MASTER_PLAN: "master_plan_section",
   FOOTER: "footer_section",
-  CONTACT_FORM_LINK: "contact_form_internal_link",
+  CONTACT_FORM_LINK: "contact_form_internal_link", 
   UNKNOWN: "unknown_source",
   NAVBAR_BANNER: "navbar_banner",
   LOCATION: "location_section",
