@@ -10,7 +10,7 @@ function App() {
   useEffect(() => {
     // Capture gclid and UTM params from URL and save to localStorage
     const params = new URLSearchParams(window.location.search);
-    const gclid = params.get("gclid");
+    const gclid = params.get("gclid");  
     const utmSource = params.get("utm_source") || params.get("utmSource");
     const utmMedium = params.get("utm_medium") || params.get("utmMedium");
     const utmCampaign = params.get("utm_campaign") || params.get("utmCampaign");
