@@ -2,20 +2,16 @@ import React, { useState, useEffect } from "react";
 import { FormAlert } from "./FormAlert"; // Custom alert component
 import { db } from "../../firebase"; // Firebase Firestore instance
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
-import ReactGA from "react-ga4"; // Google Analytics 4
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Calendar, Xmark } from "iconoir-react"; // Icon library
 import overlaybg from "../../assets/overlay-bg-site.png"; // Background image
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
+import { useLeadTracking, LEAD_SOURCES } from "../../hooks/useLeadTracking";
 
 // Importing environment variables
-const trackingId = import.meta.env.VITE_GA_MEASUREMENT_ID;
 const ip_api = import.meta.env.VITE_IP_API;
-
-// Initialize Google Analytics
-ReactGA.initialize(trackingId);
 
 /**
  * Utility function to extract UTM parameters from the URL.
@@ -23,20 +19,16 @@ ReactGA.initialize(trackingId);
  */
 function getUTMParams() {
   const params = new URLSearchParams(window.location.search);
-  const source = params.get("utm_source"); // Corrected parameter names (use underscores)
-  const medium = params.get("utm_medium");
-  const campaign = params.get("utm_campaign");
-  ReactGA.send({
-    hitType: "pageview",
-    utm_source: source,
-    utm_medium: medium,
-    utm_campaign: campaign,
-  });
+  const source = params.get("utm_source") || params.get("utmSource");
+  const medium = params.get("utm_medium") || params.get("utmMedium");
+  const campaign = params.get("utm_campaign") || params.get("utmCampaign");
+  const gclid = params.get("gclid");
 
   return {
-    utmSource: source || "",
-    utmMedium: medium || "",
-    utmCampaign: campaign || "",
+    utmSource: source || localStorage.getItem("utm_source") || "",
+    utmMedium: medium || localStorage.getItem("utm_medium") || "",
+    utmCampaign: campaign || localStorage.getItem("utm_campaign") || "",
+    gclid: gclid || localStorage.getItem("gclid") || "",
   };
 }
 
@@ -59,6 +51,7 @@ function getUnixDateTime() {
  */
 
 export const SiteVisitForm = ({ sitevisitmodal, setSiteVisitModal }) => {
+  const { trackFormSubmission } = useLeadTracking();
   const [formData, setFormData] = useState({ name: "", number: "" });
   const [startDate, setStartDate] = useState(new Date());
   const [alertMessage, setAlertMessage] = useState(null);
@@ -135,24 +128,24 @@ export const SiteVisitForm = ({ sitevisitmodal, setSiteVisitModal }) => {
     e.preventDefault();
     if (loading) return;
     setLoading(true);
-  
+
     // Validate form before proceeding
     if (!validateForm()) {
       setLoading(false);
       return;
     }
-  
+
     showAlert(
       <FormAlert message="Submitting form..." onClose={() => showAlert(null)} />
     );
-  
+
     const normalizedNumber = formData.number?.trim();
     const normalizedName = formData.name.trim().toLowerCase();
     const siteVisitTimestamp = Math.floor(startDate.getTime() / 1000);
-  
+
     const propertyId = "OoamiEnU7aHRxicXCnr6"; // Example property ID
     const projectName = "sattva hamlet  "; // Example project name
-  const currentAgent = "vishakha@canvas-homes.com";
+    const currentAgent = "vishakha@canvas-homes.com";
     const payload = {
       name: normalizedName,
       phonenumber: normalizedNumber,
@@ -165,9 +158,10 @@ export const SiteVisitForm = ({ sitevisitmodal, setSiteVisitModal }) => {
         source: utmParams.utmSource || null,
         medium: utmParams.utmMedium || null,
         campaign: utmParams.utmCampaign || null,
+        gclid: utmParams.gclid || null,
       },
     };
-  
+
     try {
       const response = await fetch(
         "https://handlemultiplecampaigndata-66bpoanwxq-uc.a.run.app",
@@ -179,24 +173,19 @@ export const SiteVisitForm = ({ sitevisitmodal, setSiteVisitModal }) => {
           body: JSON.stringify(payload),
         }
       );
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+
       const result = await response.json();
       console.log("Success:", result);
-  
-      ReactGA.event({
-        category: "Form Submission",
-        action: "lead_form_submit",
-        label: "Lead Form",
-        value: 1,
-      });
-  
+
+      trackFormSubmission(LEAD_SOURCES.UNKNOWN, "site_visit_form");
+
       // Clear form fields after successful submission
       setFormData({ name: "", number: "" });
-  
+
       // Show success alert
       showAlert(
         <FormAlert
@@ -216,7 +205,7 @@ export const SiteVisitForm = ({ sitevisitmodal, setSiteVisitModal }) => {
       setLoading(false);
     }
   };
-  
+
 
   // Function to handle color change in the time picker (not used in this example)
   let handleColor = (time) => {
@@ -293,9 +282,8 @@ export const SiteVisitForm = ({ sitevisitmodal, setSiteVisitModal }) => {
               <div className="max-w-sm mx-auto w-40">
                 <button
                   type="submit"
-                  className={`text-white my-5 p-2 w-full rounded-md ${
-                    loading ? "bg-gray-400" : "bg-PrestigeBrown"
-                  }`}
+                  className={`text-white my-5 p-2 w-full rounded-md ${loading ? "bg-gray-400" : "bg-PrestigeBrown"
+                    }`}
                   disabled={loading}
                 >
                   {loading ? "Submitting..." : "Submit"}

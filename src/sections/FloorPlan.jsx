@@ -1,5 +1,3 @@
-
-// importing slider
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -8,6 +6,7 @@ import pic1 from '../assets/floor-plans/floorPlanGodrejPark.png';
 import pic2 from '../assets/floor-plans/floorPlanGodrejPark.png';
 import pic3 from '../assets/floor-plans/floorPlanGodrejPark.png';
 import pic4 from '../assets/floor-plans/floorPlanGodrejPark.png';
+import { useLeadTracking } from "../hooks/useLeadTracking";
 
 const images = [
   { src: pic1, caption: "2 BHK" },
@@ -69,6 +68,7 @@ function PrevArrow(props) {
 
 
 export const FloorPlan = ({ setContactModal, contactmodal }) => {
+  const { trackButtonClick } = useLeadTracking();
   const settings = {
     dots: true,
     infinite: false,
@@ -132,7 +132,7 @@ export const FloorPlan = ({ setContactModal, contactmodal }) => {
                     className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-14 py-3 text-white bg-godrejgreen2  text-center rounded-lg text-xs md:text-lg font-medium"
                     onClick={() => {
                       setContactModal(true);
-                      // console.log('Button clicked'); 
+                      trackButtonClick("floor_plan_section", "enquiry", photo.caption);
                     }}
                   >
                     Floor Plan

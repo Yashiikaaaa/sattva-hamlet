@@ -12,111 +12,115 @@ export const useLeadTracking = () => {
     if (typeof window === "undefined") return {};
     const params = new URLSearchParams(window.location.search);
     return {
-      utm_source: params.get("utmSource") || undefined,
-      utm_medium: params.get("utmMedium") || undefined,
-      utm_campaign: params.get("utmCampaign") || undefined,
-      utm_term: params.get("utmTerm") || undefined,
-      utm_content: params.get("utmContent") || undefined,
+      utm_source: params.get("utm_source") || params.get("utmSource") || localStorage.getItem("utm_source") || undefined,
+      utm_medium: params.get("utm_medium") || params.get("utmMedium") || localStorage.getItem("utm_medium") || undefined,
+      utm_campaign: params.get("utm_campaign") || params.get("utmCampaign") || localStorage.getItem("utm_campaign") || undefined,
+      utm_term: params.get("utm_term") || params.get("utmTerm") || localStorage.getItem("utm_term") || undefined,
+      utm_content: params.get("utm_content") || params.get("utmContent") || localStorage.getItem("utm_content") || undefined,
+      gclid: params.get("gclid") || localStorage.getItem("gclid") || undefined,
+      gbraid: params.get("gbraid") || localStorage.getItem("gbraid") || undefined,
+      wbraid: params.get("wbraid") || localStorage.getItem("wbraid") || undefined,
     };
   };
 
   const trackButtonClick = useCallback(
     (source, action, propertyType = null) => {
-      let eventAction = normalize(action);
-      let eventLabel = normalize(source);
+      const normalizedSource = normalize(source);
+      const normalizedAction = normalize(action);
 
-      if (eventAction.includes("pricing") && propertyType) {
-        eventAction = `${eventAction}_${normalize(propertyType)}`;
-        if (!eventLabel.includes(normalize(propertyType))) {
-          eventLabel = `${eventLabel}_${normalize(propertyType)}`;
-        }
-      } else if (eventAction.includes("enquire_now") && source) {
-        eventAction = `${eventAction}_${normalize(source)}`;
+      const eventParams = {
+        event_category: "Button Click",
+        event_label: source,
+        lead_source: source,
+        action: action,
+        property_type: propertyType,
+        ...getUTMParams(),
+      };
+
+      // Push to GTM dataLayer
+      if (window?.dataLayer) {
+        window.dataLayer.push({
+          event: "Contact_form_interaction",
+          event_type: "click",
+          ...eventParams, 
+        });
       }
 
-      eventAction = eventAction.replace(/(_pricing)+/g, "_pricing");
-      eventLabel = eventLabel.replace(/(_pricing)+/g, "_pricing");
-
-      ReactGA.event(eventAction, {
-        event_category: "Button Click",
-        event_label: eventLabel,
-        lead_source: source,
-        property_type: propertyType,
-        funnel_stage: "interest",
-        transport_type: "beacon",
-        ...getUTMParams(), // ← add utm parameters
+      // Send to GA4
+      ReactGA.event("Contact_form_interaction", {
+        event_type: "click",
+        ...eventParams,
       });
     },
     []
   );
 
   const trackFormSubmission = useCallback(
-  (source, formType, propertyType = null) => {
-    let eventAction;
+    (source, formType, propertyType = null) => {
+      const eventParams = {
+        event_category: "Form Submission",
+        event_label: `${source}${propertyType ? ` - ${propertyType}` : ""}`,
+        lead_source: source,
+        form_type: formType,
+        property_type: propertyType,
+        funnel_stage: formType === "contact_form" ? "lead" : "site_visit_request",
+        transport_type: "beacon",
+        ...getUTMParams(),
+      };
 
-    if (propertyType) {
-      eventAction = `${normalize(formType)}_submit_${normalize(propertyType)}`;
-    } else if (source) {
-      eventAction = `${normalize(formType)}_submit_${normalize(source)}`;
-    } else {
-      eventAction = `${normalize(formType)}_submit`;
-    }
+      // 1. Generalized GTM and GA4 event (Standardized to contact_form_submit)
+      if (window?.dataLayer) {
+        window.dataLayer.push({
+          event: "Contact_form_submit", 
+          event_type: "submission",
+          ...eventParams,
+        });
+      }
 
-    // 🔹 Dynamic / descriptive event
-    ReactGA.event(eventAction, {
-      event_category: "Form Submission",
-      event_label: `${source}${propertyType ? ` - ${propertyType}` : ""}`,
-      lead_source: source,
-      property_type: propertyType,
-      funnel_stage:
-        formType === "contact_form" ? "lead" : "site_visit_request",
-      transport_type: "beacon",
-      ...getUTMParams(),
-    });
+      // 2. Single GA4 event
+      ReactGA.event("Contact_form_submit", {
+        event_type: "submission",
+        ...eventParams,
+      });
+    },
+    []
+  );
 
-    // 🔹 Fixed conversion event (Capitalized as requested)
-    ReactGA.event("Contact_form_submit", {
-      event_category: "Form Submission",
-      event_label: `${source}${propertyType ? ` - ${propertyType}` : ""}`,
-      lead_source: source,
-      property_type: propertyType,
-      funnel_stage:
-        formType === "contact_form" ? "lead" : "site_visit_request",
-      transport_type: "beacon",
-      ...getUTMParams(),
-    });
-  },
-  []
-);
-
-  const trackFormOpen = useCallback((source, formType, propertyType = null) => {
-    let eventAction;
-
-    if (propertyType) {
-      eventAction = `${normalize(formType)}_opened_${normalize(propertyType)}`;
-    } else if (source) {
-      eventAction = `${normalize(formType)}_opened_${normalize(source)}`;
-    } else {
-      eventAction = `${normalize(formType)}_opened`;
-    }
-
-    ReactGA.event(eventAction, {
+  const trackFormOpen = useCallback((source, formType, propertyType = null, action = "enquire_now") => {
+    const eventParams = {
       event_category: "Form Interaction",
       event_label:
         propertyType && !normalize(source).includes(normalize(propertyType))
           ? `${source} - ${propertyType}`
           : source,
       lead_source: source,
+      form_type: formType,
+      action: action,
       property_type: propertyType,
       funnel_stage: "consideration",
       transport_type: "beacon",
-      ...getUTMParams(), // ← add utm parameters
+      ...getUTMParams(),
+    };
+
+    // Push to GTM dataLayer
+    if (window?.dataLayer) { 
+      window.dataLayer.push({
+        event: "Contact_form_interaction",
+        event_type: "open",
+        ...eventParams,
+      });
+    }
+
+    // Send to GA4
+    ReactGA.event("Contact_form_interaction", {
+      event_type: "open",
+      ...eventParams,
     });
   }, []);
 
   return {
     trackButtonClick,
-    trackFormSubmission,
+    trackFormSubmission, 
     trackFormOpen,
   };
 };
@@ -130,8 +134,13 @@ export const LEAD_SOURCES = {
   PRICING_4BHK: "pricing_4BHK",
   MASTER_PLAN: "master_plan_section",
   FOOTER: "footer_section",
-  CONTACT_FORM_LINK: "contact_form_internal_link",
+  CONTACT_FORM_LINK: "contact_form_internal_link", 
   UNKNOWN: "unknown_source",
+  NAVBAR_BANNER: "navbar_banner",
+  LOCATION: "location_section",
+  WHATSAPP: "whatsapp",
+  NAVBAR: "navbar",
+  CONTACT_FORM: "contact_form",
 };
 
 // Property types

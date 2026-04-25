@@ -2,7 +2,7 @@ import herobanner from "../assets/sattva1.jpeg"; // Importing hero banner backgr
 import Button from "../components/button/buttonMain"; // Importing the Button component for reusability
 import homeLocation from "../assets/home/location.svg"; // Importing location icon
 import { useEffect, useState } from "react";
-
+import { useLeadTracking, LEAD_SOURCES } from "../hooks/useLeadTracking";
 
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -14,9 +14,9 @@ const useIsMobile = () => {
   return isMobile;
 };
 
-export const Home = ({ contactmodal, setContactModal }) => {
+export const Home = ({ openContactModal }) => {
   const isMobile = useIsMobile();
-  
+
   // Dynamic container styles
   const containerStyle = {
     backgroundImage: `url(${herobanner})`,
@@ -57,13 +57,13 @@ export const Home = ({ contactmodal, setContactModal }) => {
               <div className="flex gap-4 flex-col w-full">
                 {/* Main Title */}
                 <h1 className="font-subheading text-3xl md:text-6xl font-semibold uppercase">
-                 Sattva Hamlet
+                  Sattva Hamlet
                 </h1>
 
                 {/* Subtitle */}
                 <p className="font-body text-white md:text-2xl text-sm font-normal lg:w-4/6 mx-auto lg:mx-0">
-                Luxury Venice Themed Project near Doddajala Metro Station
-                  
+                  Luxury Venice Themed Project near Doddajala Metro Station
+
                 </p>
               </div>
 
@@ -85,7 +85,9 @@ export const Home = ({ contactmodal, setContactModal }) => {
               {/* Enquire Now Button using the reusable Button component */}
               <Button
                 text="Enquire Now!"
-                onClick={() => setContactModal(!contactmodal)} // Toggle contact modal on button click
+                onClick={() => {
+                  openContactModal(LEAD_SOURCES.HERO);
+                }} // Toggle contact modal on button click
               />
             </div>
           </div>
@@ -100,7 +102,7 @@ export const Home = ({ contactmodal, setContactModal }) => {
               className="h-3 md:h-6 text-black"
             />
             <p className="max-w-96 font-body text-left text-black md:text-2xl text-xs font-medium leading-[130%]">
-          Airport Road{/* Location name */}
+              Airport Road{/* Location name */}
             </p>
           </div>
         </div>

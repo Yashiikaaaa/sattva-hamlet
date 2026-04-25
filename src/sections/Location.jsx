@@ -1,8 +1,10 @@
 import React from 'react';
 import mapPointer from '../assets/location/markerGodrejGreen.png'; // Importing map pointer icon
 import Button from '../components/button/buttonMain'; // Import the reusable Button component
+import { useLeadTracking } from '../hooks/useLeadTracking';
 
 export const Location = () => {
+  const { trackButtonClick } = useLeadTracking();
   return (
     <section id="Location" className="max-w-full flex flex-col items-center bg-white">
       {/* Location Section Header and Info */}
@@ -41,7 +43,10 @@ export const Location = () => {
             <Button 
               text="Open in Google Maps" // Button text
               className="whitespace-nowrap"  // Prevent text wrapping
-              onClick={() => window.open("https://maps.app.goo.gl/9bG5aFk4uWJbnoZ2A", "_blank")} // Opens Google Maps link in a new tab
+              onClick={() => {
+                window.open("https://maps.app.goo.gl/9bG5aFk4uWJbnoZ2A", "_blank");
+                trackButtonClick("location_section", "open_maps");
+              }} // Opens Google Maps link in a new tab
             />
           </div>
         </div>
